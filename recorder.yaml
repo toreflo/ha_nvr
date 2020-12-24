@@ -1,0 +1,5 @@
+purge_keep_days: 10
+exclude:
+  domains:
+    - sensor
+    - binary_sensor

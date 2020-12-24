@@ -1,0 +1,45 @@
+
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Text to speech
+tts:
+  - platform: google_translate
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+sensor: !include_dir_merge_list sensors/
+utility_meter: !include utility_meters.yaml
+recorder: !include recorder.yaml
+
+http:
+#  base_url: !secret domain
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+
+ffmpeg:
+
+stream:
+
+homeassistant:
+  allowlist_external_dirs:
+    - /share
+    - /media
+
+media_dir:
+
+logger:
+  default: info
+  
+folder_watcher:
+  - folder: /media/NVR
+    patterns:
+      - '*.mp4'
+
+logbook:
+  exclude:
+    domains:
+      - script
+      - automation

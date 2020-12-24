@@ -1,0 +1,185 @@
+{
+    "version": 1,
+    "key": "lovelace",
+    "data": {
+        "config": {
+            "title": "Casa",
+            "views": [
+                {
+                    "path": "default_view",
+                    "title": "Home",
+                    "badges": [
+                        {
+                            "entity": "binary_sensor.updater"
+                        },
+                        {
+                            "entity": "binary_sensor.rpi_power_status"
+                        },
+                        {
+                            "entity": "sun.sun"
+                        }
+                    ],
+                    "cards": [
+                        {
+                            "type": "weather-forecast",
+                            "entity": "weather.casa",
+                            "show_forecast": false
+                        },
+                        {
+                            "type": "picture-glance",
+                            "title": "Kitchen",
+                            "image": "https://demo.home-assistant.io/stub_config/kitchen.png",
+                            "entities": [],
+                            "camera_image": "camera.prova_onvif_cam_fixedprofilea01",
+                            "camera_view": "live"
+                        }
+                    ]
+                },
+                {
+                    "icon": "mdi:server",
+                    "badges": [
+                        {
+                            "entity": "sensor.git_alarm"
+                        }
+                    ],
+                    "cards": [
+                        {
+                            "type": "entities",
+                            "entities": [
+                                "sensor.last_boot"
+                            ]
+                        },
+                        {
+                            "type": "vertical-stack",
+                            "cards": [
+                                {
+                                    "type": "horizontal-stack",
+                                    "cards": [
+                                        {
+                                            "type": "gauge",
+                                            "min": 0,
+                                            "max": 100,
+                                            "entity": "sensor.processor_use_percent"
+                                        },
+                                        {
+                                            "type": "sensor",
+                                            "graph": "line",
+                                            "entity": "sensor.processor_temperature"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "horizontal-stack",
+                                    "cards": [
+                                        {
+                                            "type": "gauge",
+                                            "entity": "sensor.load_1m",
+                                            "min": 0,
+                                            "max": 1
+                                        },
+                                        {
+                                            "type": "gauge",
+                                            "min": 0,
+                                            "max": 1,
+                                            "entity": "sensor.load_5m"
+                                        },
+                                        {
+                                            "type": "gauge",
+                                            "min": 0,
+                                            "max": 1,
+                                            "entity": "sensor.load_15m"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "horizontal-stack",
+                                    "cards": [
+                                        {
+                                            "type": "gauge",
+                                            "min": 0,
+                                            "max": 100,
+                                            "entity": "sensor.memory_use_percent"
+                                        },
+                                        {
+                                            "type": "sensor",
+                                            "graph": "line",
+                                            "entity": "sensor.memory_free"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "horizontal-stack",
+                                    "cards": [
+                                        {
+                                            "type": "gauge",
+                                            "min": 0,
+                                            "max": 100,
+                                            "entity": "sensor.disk_use_percent"
+                                        },
+                                        {
+                                            "type": "sensor",
+                                            "graph": "line",
+                                            "entity": "sensor.db_size"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "type": "vertical-stack",
+                            "cards": [
+                                {
+                                    "type": "horizontal-stack",
+                                    "cards": [
+                                        {
+                                            "type": "sensor",
+                                            "entity": "sensor.network_throughput_in_eth0",
+                                            "graph": "line",
+                                            "name": "Throughput IN"
+                                        },
+                                        {
+                                            "type": "sensor",
+                                            "graph": "line",
+                                            "entity": "sensor.network_throughput_out_eth0",
+                                            "name": "Throughput OUT"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "horizontal-stack",
+                                    "cards": [
+                                        {
+                                            "type": "sensor",
+                                            "entity": "sensor.network_in_daily",
+                                            "name": "IN giornaliero"
+                                        },
+                                        {
+                                            "type": "sensor",
+                                            "entity": "sensor.network_out_daily",
+                                            "name": "OUT giornaliero"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "type": "horizontal-stack",
+                                    "cards": [
+                                        {
+                                            "type": "sensor",
+                                            "entity": "sensor.network_in_monthly",
+                                            "name": "IN mensile"
+                                        },
+                                        {
+                                            "type": "sensor",
+                                            "entity": "sensor.network_out_monthly",
+                                            "name": "OUT mensile"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    }
+}

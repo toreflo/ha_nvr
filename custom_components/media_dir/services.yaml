@@ -1,0 +1,9 @@
+clear:
+  description: Keep folder size under a certain value
+  fields:
+    folder:
+      description: Folder to be checked
+      example: '/config/snapshots'
+    size:
+      description: Maximum folder size in bytes. Default is 10000000 bytes.
+      example: 1000

@@ -1,0 +1,34 @@
+# Example .gitignore file for your config dir.
+# A * ensures that everything will be ignored.
+#*
+*.orig
+.HA_VERSION
+configurator.py
+*~
+*.log
+*.db
+
+# You can whitelist files/folders with !, these will not be ignored.
+!*.yaml
+!.gitignore
+!*.md
+
+# Ignore folders.
+.storage
+.cloud
+.google.token
+tts
+www
+custom_components/*
+!custom_components/media_dir
+custom_components/media_dir/__pycache__
+
+# Ensure these YAML files are ignored, otherwise your secret data/credentials will leak.
+ip_bans.yaml
+secrets.yaml
+known_devices.yaml
+
+# Whitelist lovelace conf
+!.storage
+.storage/*
+!.storage/lovelace

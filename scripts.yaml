@@ -1,0 +1,80 @@
+record_video:
+  alias: Registra video
+  icon: "mdi:cctv"
+  description: 'Start video recording'
+  mode: single
+  variables:
+    start_time: "{{ now().strftime('%s') }}"
+    dir_name: "{{ now().strftime('%Y%m%d') }}"
+    file_name: "{{ camera_id }}-{{ duration }}s-{{ now().strftime('%Y%m%d-%H%M%S') }}.mp4"
+    timeout: "{{ duration|int+10 }}"
+  fields:
+    camera_id:
+      description: 'Camera entity_id'
+      example: living_room
+    duration:
+      description: 'Video duration (seconds)'
+      example: 900
+  sequence:
+  - service: system_log.write
+    data:
+      level: info
+      message: "Registra video: Inizio registrazione video per {{ camera_id }}, dir_name: {{ dir_name }}, file_name: {{ file_name }}, duration: {{ duration }}, timeout: {{ timeout }}"
+  - service: camera.record
+    data:
+      entity_id: "camera.{{ camera_id }}"
+      filename: /media/NVR/{{ dir_name }}/{{ file_name}}
+      duration: "{{ duration}}"
+      lookback: 0
+####################################################################################################################
+# Per far sì che lo script termini solo dopo la fine della registrazione si attende il trigger del folder_watcher. 
+# Tuttavia utilizzando 'file: "{{file_name}}"' all'interno dell'event_data il trigger non viene intercettato. Di
+# conseguenza, al posto del seguente wait_for_trigger, la verifica viene effettuata tramite un while.
+# N.B. Tale workaround soffre della seguente race condition: viene generato un altro file mp4 all'interno della
+#      stessa directory, il trigger scatta ma non riguarda il file corretto. Se il file corretto viene creato
+#      immediatamente dopo, prima che sia stata riavviato il successivo wait_for_trigger, la sua creazione non viene
+#      intercettata. In questo caso lo script uscirà per timeout.
+#
+#  - wait_for_trigger:
+#    - platform: event
+#      event_type: folder_watcher
+#      event_data:
+#        event_type: created
+#        file: "{{file_name}}"
+#    timeout:
+#      seconds: "{{ timeout }}"
+#    continue_on_timeout: false
+####################################################################################################################
+  - repeat:
+      while:
+        - condition: template
+          value_template: "{{ now().strftime('%s')|int < start_time|int + timeout }}"
+        - condition: template
+          value_template: "{{ (wait is not defined) or (wait.trigger is none) or (wait.trigger.event.data.file != file_name) }}"
+      sequence:
+        - wait_for_trigger:
+          - platform: event
+            event_type: folder_watcher
+            event_data:
+              event_type: created
+          timeout:
+            seconds: "{{ timeout - (now().strftime('%s')|int - start_time|int) }}"
+        - service: system_log.write
+          data:
+            level: info
+            message: "Registra video: wait = {{ wait }}"
+  - choose:
+      - conditions:
+          - condition: template
+            value_template: "{{ (wait is defined) and (wait.trigger is not none) and (wait.trigger.event.data.file == file_name) }}"
+        sequence:
+          - service: system_log.write
+            data:
+              level: info
+              message: "Registra video: Video {{ file_name }} registrato"
+    default:
+      - service: system_log.write
+        data:
+          level: info
+          message: "Registra video: Uscita per timeout"
+
