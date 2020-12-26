@@ -5,6 +5,12 @@
   value_template: '{{ ((value | int) / 1024 / 1024) | int }}'
 
 - platform: command_line
+  name: NVR size
+  command: "du -s /media/NVR | awk '{print $1}'"
+  unit_of_measurement: "M"
+  value_template: '{{ ((value | int) / 1024) | int }}'
+
+- platform: command_line
   name: Git alarm
   command: "[ $(git status -s | wc -l) -gt 0 ] && echo on || echo off"
 

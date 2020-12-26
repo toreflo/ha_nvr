@@ -120,6 +120,11 @@
                                             "type": "sensor",
                                             "graph": "line",
                                             "entity": "sensor.db_size"
+                                        },
+                                        {
+                                            "type": "sensor",
+                                            "graph": "line",
+                                            "entity": "sensor.nvr_size"
                                         }
                                     ]
                                 }
@@ -133,14 +138,14 @@
                                     "cards": [
                                         {
                                             "type": "sensor",
-                                            "entity": "sensor.network_throughput_in_eth0",
+                                            "entity": "sensor.network_throughput_in_wlan0",
                                             "graph": "line",
                                             "name": "Throughput IN"
                                         },
                                         {
                                             "type": "sensor",
                                             "graph": "line",
-                                            "entity": "sensor.network_throughput_out_eth0",
+                                            "entity": "sensor.network_throughput_out_wlan0",
                                             "name": "Throughput OUT"
                                         }
                                     ]

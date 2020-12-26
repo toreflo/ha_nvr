@@ -3,3 +3,8 @@ exclude:
   domains:
     - sensor
     - binary_sensor
+include:
+  entities:
+    - sensor.nvr_size
+    - sensor.load_1m
+    - sensor.memory_use_percent

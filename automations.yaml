@@ -4,7 +4,10 @@
   trigger:
   - platform: time_pattern
     seconds: '*'
-  condition: []
+  condition:
+    - condition: state
+      entity_id: 'script.record_video'
+      state: 'off'
   action:
   - service: script.turn_on
     data:
