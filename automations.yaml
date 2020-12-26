@@ -11,18 +11,22 @@
       entity_id: script.record_video
       variables:
         camera_id: prova_onvif_cam_fixedprofilea01
-        duration: 900
+        duration: 3600
   mode: single
 - id: '1608819015505'
   alias: Clean NVR directory
   description: ''
   trigger:
-  - platform: time
-    at: 03:00:00
+  - platform: time_pattern
+    hours: /1
   condition: []
   action:
+  - service: system_log.write
+    data:
+      level: info
+      message: Calling media_dir.clear
   - service: media_dir.clear
     data:
       folder: /media/NVR
-      size: 8000000000
+      size: 5000000000
   mode: single
